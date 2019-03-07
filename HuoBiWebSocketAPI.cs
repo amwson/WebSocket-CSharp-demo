@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebSocket4Net;
+using System.Security.Authentication;
 
 namespace Huobi.Market.WebSocketAPI
 {
@@ -34,7 +35,7 @@ namespace Huobi.Market.WebSocketAPI
             try
             {
                 websocket = new WebSocket(HUOBI_WEBSOCKET_API);
-
+                websocket.Security.EnabledSslProtocols = SslProtocols.Tls12;
                 websocket.Error += (sender, e) =>
                 {
                     Console.WriteLine("Error:" + e.Exception.Message.ToString());
@@ -84,6 +85,7 @@ namespace Huobi.Market.WebSocketAPI
             }
             else//接收消息
             {
+                Console.WriteLine("get");
                 OnMessage?.Invoke(null, new HuoBiMessageReceivedEventArgs(msg));
             }
 
